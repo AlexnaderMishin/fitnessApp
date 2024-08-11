@@ -1,22 +1,38 @@
 <?php
-require_once 'functions.php';
+require_once '../functions.php';
+header('Content-Type: application/json; charset=utf-8');
 
-// вывожу данные по группам мышц
-$result = queryMysql("SELECT * FROM `muscle_group`");
-$arrGroup = array();
-while ($row = $result->fetch()) {
-    $arrGroup[] = $row['category'];
-    // $post_dataGroup = json_encode($arrGroup);
-    $response = [
-        "data" => $arrGroup,
-        "message" => 'данные отправлены',
-        "status" => true
-    ];
-    
-  
+$data = $_POST["data"];
+$data = json_decode($data, TRUE);
+
+$query = "INSERT INTO program_exercise (id_workout, exercise_id, weight, set_count, repeat_count) VALUES (?, ?, ?, ?, ?)";
+$stmt = $pdo->prepare($query);
+
+foreach ($data as $exercise) {
+    $id_workout = 3; // Предположим, что id_workout у вас также есть в массиве данных
+    $exercise_id = $exercise[0];
+    $weight = $exercise[1];
+    $set_count = $exercise[2];
+    $repeat_count = $exercise[3];
+
+    // Привязка параметров: bindValue используется в PDO
+    $stmt->bindValue(1, $id_workout, PDO::PARAM_INT);
+    $stmt->bindValue(2, $exercise_id, PDO::PARAM_INT);
+    $stmt->bindValue(3, $weight, PDO::PARAM_INT);
+    $stmt->bindValue(4, $set_count, PDO::PARAM_INT);
+    $stmt->bindValue(5, $repeat_count, PDO::PARAM_INT);
+    $stmt->execute();
 }
+
+// Закрываем подготовленный запрос и соединение
+$stmt->close();
+ 
+
+// Возвращаем ответ
+$response = array("status" => "success");
 echo json_encode($response);
 exit();
+
 ?>
 
 
