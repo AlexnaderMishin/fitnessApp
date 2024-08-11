@@ -71,6 +71,7 @@ if ($password1 !== $password2) {
 $passmd5 = md5($password1);
 
 // Подготовленный запрос для защиты от SQL-инъекций
+
 $query = "INSERT INTO users (login, forename, password) VALUES (:login, :forename, :password)";
 $stmt = $pdo->prepare($query);
 
@@ -81,18 +82,14 @@ $stmt->bindParam(':password', $passmd5);
 if ($stmt->execute()) {
     // Получаем ID последней вставленной записи
     $userId = $pdo->lastInsertId();
-    
     // Устанавливаем сессии для автологирования
     $_SESSION['login'] = $login;
     $_SESSION['username'] = $username;
-    
-
- 
+    // ответ клиенту
     $response = [
         "message" => 'Пользователь успешно добавлен и вы автоматически вошли в систему',
         "status" => true
     ];
-
 } else {
     $response = [
         "message" => 'Ошибка при добавлении пользователя',

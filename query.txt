@@ -1,0 +1,19 @@
+Запрос на вывод списка упражнений для конкретного пользователя в рамках присвоеной ему программы
+SELECT
+    e.title AS exercise_title
+FROM
+    exercises e
+JOIN
+    program_exercise pe ON e.id = pe.exercise_id
+JOIN
+    user_program up ON pe.id_program = up.id_program
+JOIN
+    users u ON up.id_user = u.id
+WHERE
+    u.id = 3 AND up.id_program = 2;
+
+Вывод последних 3х записей показателей пользователей 
+$query = "SELECT MAX(s.date) AS last_date, s.height, s.body_weight, s.fat_mass, s.muscle_mass 
+    FROM user_stats s JOIN users u ON s.id_user = u.id 
+    WHERE u.id = '$idUser' 
+    GROUP BY s.height, s.body_weight, s.fat_mass, s.muscle_mass ORDER BY last_date DESC LIMIT 3";

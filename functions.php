@@ -24,4 +24,6 @@ function queryMysql($query){
     return $pdo->query($query);
 }
 
+
+
 ?>

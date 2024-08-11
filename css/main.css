@@ -1,0 +1,23 @@
+/* * {
+    outline: 1px solid red;
+  } */
+html, body {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 auto;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    
+}
+
+.row>*{
+    padding: 0 auto;
+    width: 100%;
+}
+#accordionFlushExample{
+    padding: 0;
+
+}
+.accordion-body{
+    padding: 0;
+}
