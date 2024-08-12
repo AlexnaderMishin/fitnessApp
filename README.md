@@ -18,7 +18,7 @@
 
 sql запросы: 
     Запрос на вывод списка упражнений для конкретного пользователя в рамках присвоеной ему программы
-/////////////////////////////////////////////////////
+
 SELECT
     e.title AS exercise_title
 FROM
@@ -34,7 +34,7 @@ WHERE
 
 
     Вывод последних 3х записей показателей пользователей 
-/////////////////////////////////////////////////////////
+
 $query = "SELECT MAX(s.date) AS last_date, s.height, s.body_weight, s.fat_mass, s.muscle_mass 
     FROM user_stats s JOIN users u ON s.id_user = u.id 
     WHERE u.id = '$idUser' 
@@ -42,7 +42,7 @@ $query = "SELECT MAX(s.date) AS last_date, s.height, s.body_weight, s.fat_mass, 
 
 
     Запись многомерного массива данных в БД через цикл foreach
-//////////////////////////////////////////////////////////////
+
 $query = "INSERT INTO program_exercise (id_workout, exercise_id, weight, set_count, repeat_count) VALUES (?, ?, ?, ?, ?)";
 $stmt = $pdo->prepare($query);
 
