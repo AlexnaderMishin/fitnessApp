@@ -11,8 +11,32 @@
       </button>
     </h2>
     <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-      <div class="accordion-body">
+      <div class="accordion-body text-center">
         <!-- Ваш контент внутри аккордеона -->
+        <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label">Название упражнения</label>
+          <input type="text" class="form-control" id="exercise_title" placeholder="Становая тяга">
+        </div>
+        <div class="mb-3">
+          <label for="choise_group" class="form-label">Группа мышц</label>
+          <select class="form-select" id="choise_group">
+                    <?php
+                    $result = queryMysql("SELECT id, category FROM muscle_group");
+                    while ($row = $result->fetch()) {
+                        echo '<option value="' . $row['id'] . '">' . $row['category'] . '</option>';
+                    }
+                    ?>
+                </select>
+        </div>
+        <div class="mb-3">
+          <label for="exampleFormControlTextarea1" class="form-label">Методические указания</label>
+          <textarea class="form-control" id="exercise_desk" rows="3" placeholder="Необязательно"></textarea>
+        </div>
+        <div class="d-grid gap-2 d-md-block">
+              <button class="btn btn-success" type="button" onclick="addExercise()">ДОБАВИТЬ</button>
+            </div>
+        
+
       </div>
     </div>
   </div>
@@ -25,6 +49,18 @@
     <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body text-center">
           <form action="#" class="accordion-body">
+          <label for="example-select" class="form-label"><strong>Программа</strong></label>
+              <div class="custom-select-container">
+                <select class="form-select" id="choise_program">
+                    <?php
+                    $result = queryMysql("SELECT id, title FROM workouts");
+                    while ($row = $result->fetch()) {
+                        echo '<option value="' . $row['id'] . '">' . $row['title'] . '</option>';
+                    }
+                    ?>
+                </select>
+                
+              </div>
             <label for="example-select" class="form-label"><strong>Выбор упражнения</strong></label>
               <div class="custom-select-container">
                 <select class="custom_select" id="example-select">
@@ -38,17 +74,19 @@
                 
               </div>
               <label for="" class="form-label"><strong>Настроить :</strong></label>
-            <div class="row">
+            <div class="container">
+              <div class="row">
               <div class="col">
-                <input type="number" class="form-control" id="weightProgram" placeholder="Вес"><br>
+                <input type="number" class="form-control" id="weightProgram" placeholder="Вес">
               </div>
             <!-- Количество подходов -->
               <div class="col">
-                <input type="number" class="form-control" id="setCount" placeholder="Подходы"><br>
+                <input type="number" class="form-control" id="setCount" placeholder="Подходы">
               </div>
             <!-- Количество повторений -->
               <div class="col">
                 <input type="number" class="form-control" id="repeatCount" placeholder="Повт."><br>
+              </div>
               </div>
             </div>
             <div class="d-grid gap-2 d-md-block">
@@ -76,19 +114,7 @@
         </div>
     </div>
   </div>
-  
-  <div class="accordion-item">
-    <h2 class="accordion-header">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-        Назначить тренировку
-      </button>
-    </h2>
-    <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-      <div class="accordion-body">
-        <!-- Ваш контент внутри аккордеона -->
-      </div>
-    </div>
-  </div>
+
 </div> <!-- Конец #accordionFlushExample -->
 
 <!-- Подключите jQuery и Bootstrap JS -->
@@ -105,24 +131,20 @@
             });
         });
         var dataExercise = [];
-
+        // сохраняю упражнения в массив для препросмотра
         function addProgram(){
+          var program = $('#choise_program').val();
           var exercise = $('#example-select').val();
           var exerciseTable = $('#example-select option:selected').html();;
-          
-
-
-          
           var weight = $('#weightProgram').val();
           var sets = $('#setCount').val();
           var repeat = $('#repeatCount').val();
-          
-          dataExercise.push([exercise, weight, sets, repeat]);
+          // пушу список упражнений в массив
+          dataExercise.push([program, exercise, weight, sets, repeat]);
           console.log(dataExercise);
-
-
+          // вывожу список упражнений в таблицу
           var tbody = document.getElementById('exerciseTable');
-            var rowNumber = tbody.rows.length + 1;
+          var rowNumber = tbody.rows.length + 1;
 
             var newRow = tbody.insertRow();
             var cell1 = newRow.insertCell(0);
@@ -148,7 +170,7 @@
                 tbody.rows[i].cells[0].innerHTML = i + 1;
             }
         }
-
+        // отправляю полученные данные о тренировке 
         function sendProgram(){
           $.ajax({
                url: 'admin.php',
@@ -165,4 +187,28 @@
            });
           // console.log(dataExercise);
         }
+
+      var newExercise = [];
+      function addExercise(){
+      var exercise_title = $('#exercise_title').val();
+      var exercise_group = $('#choise_group').val();
+      var exercise_desk = $('#exercise_desk').val();
+      
+      newExercise.push([exercise_title, exercise_group, exercise_desk]);
+      console.log(newExercise);
+
+      $.ajax({
+               url: 'admin.php',
+               type: 'post',
+               data: { data: JSON.stringify(newExercise) },
+               dataType: 'json',
+               success: function() {
+            console.log(); // Логирование сообщения
+            
+        },
+               error: function() {
+                   console.log('error');
+               }
+           });
+      }
     </script>

@@ -9,11 +9,11 @@ $query = "INSERT INTO program_exercise (id_workout, exercise_id, weight, set_cou
 $stmt = $pdo->prepare($query);
 
 foreach ($data as $exercise) {
-    $id_workout = 3; // Предположим, что id_workout у вас также есть в массиве данных
-    $exercise_id = $exercise[0];
-    $weight = $exercise[1];
-    $set_count = $exercise[2];
-    $repeat_count = $exercise[3];
+    $id_workout = $exercise[0]; // Предположим, что id_workout у вас также есть в массиве данных
+    $exercise_id = $exercise[1];
+    $weight = $exercise[2];
+    $set_count = $exercise[3];
+    $repeat_count = $exercise[4];
 
     // Привязка параметров: bindValue используется в PDO
     $stmt->bindValue(1, $id_workout, PDO::PARAM_INT);
