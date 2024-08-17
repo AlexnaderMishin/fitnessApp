@@ -1,0 +1,15 @@
+/* camp */
+.black-bar {
+    background-color: black;
+    height: 2px;
+  }
+
+  .content-block {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+  }
+
+  .exercise-item {
+    margin-bottom: 0.5rem;
+  }

@@ -19,6 +19,7 @@ require_once 'functions.php';
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!-- css -->
     <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/camp.css">
 
     
 
@@ -43,16 +44,16 @@ require_once 'functions.php';
             <a class="nav-link" aria-current="page" href="../">ГЛАВНАЯ</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="../profile.php">ЛИЧНЫЙ ПРОФИЛЬ</a>
+            <a class="nav-link" aria-current="page" href="../user/profile.php">ЛИЧНЫЙ ПРОФИЛЬ</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/users/camp.php">ТРЕНИРОВОЧНЫЙ ЛАГЕРЬ</a>
+            <a class="nav-link" href="../user/camp.php">ТРЕНИРОВОЧНЫЙ ЛАГЕРЬ</a>
           </li>
           <li class="nav-item">
             <?php if(($_SESSION['login'] == 'alex01')){echo '<a class="nav-link active" href="/admin/admin_panel.php">Админ панель</a>';}?>
           </li>
           <li class="nav-item">
-            <?php if(! isset($_SESSION['login'])){echo '<a class="nav-link active" href="../login.php">ВОЙТИ</a>';}else{ echo '<a class="nav-link active" href="logout.php">ВЫЙТИ ('.$_SESSION['login'].')</a>';} ?>
+            <?php if(! isset($_SESSION['login'])){echo '<a class="nav-link active" href="../login.php">ВОЙТИ</a>';}else{ echo '<a class="nav-link active" href="../logout.php">ВЫЙТИ ('.$_SESSION['login'].')</a>';} ?>
           </li>
         </ul>
       </div>
@@ -60,4 +61,5 @@ require_once 'functions.php';
   </div>
 </nav>
 <div class="container-fluid">
+  <div class="row">
 

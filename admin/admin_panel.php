@@ -1,6 +1,6 @@
 <?php include('../header.php'); ?>
 
-<div class="row">
+
 <div class="text-bg-primary p-3"><p class="h6 text-center">ПАНЕЛЬ АДМИНИСТРАТОРА</p></div>
 
 <div class="accordion accordion-flush" id="accordionFlushExample">
@@ -62,8 +62,10 @@
                 
               </div>
             <label for="example-select" class="form-label"><strong>Выбор упражнения</strong></label>
-              <div class="custom-select-container">
-                <select class="custom_select" id="example-select">
+            <div class="container">
+              <div class="row">
+              
+                <select class="form-control" id="example-select">
                     <?php
                     $result = queryMysql("SELECT id, title FROM exercises");
                     while ($row = $result->fetch()) {
@@ -71,8 +73,9 @@
                     }
                     ?>
                 </select>
-                
-              </div>
+              
+            </div>
+            </div>
               <label for="" class="form-label"><strong>Настроить :</strong></label>
             <div class="container">
               <div class="row">
@@ -120,7 +123,7 @@
 <!-- Подключите jQuery и Bootstrap JS -->
 
 
-</div><!-- конец row -->
+
 </div><!-- конец container -->
 
 <script type="text/javascript">
@@ -198,12 +201,12 @@
       console.log(newExercise);
 
       $.ajax({
-               url: 'admin.php',
+               url: 'addExercise.php',
                type: 'post',
                data: { data: JSON.stringify(newExercise) },
                dataType: 'json',
                success: function() {
-            console.log(); // Логирование сообщения
+            console.log('success'); // Логирование сообщения
             
         },
                error: function() {
