@@ -1,61 +1,25 @@
 ДЛЯ РЕЗЮМЕ:
 Приложение было создано для фитнес тренеров с целью:
-1. онлайн ведение клиентов
+1. Ведение тренировок онлайн
 2. составление тренировочных программ
 3. отслеживание прогресса клиентов
-4. объединение клиентов в одно общее комьюнити
+4. система мотивации клиентов
+   
 
 Функции приложения:
 
 ГОТОВЫЕ:
 
-1.регистраиця\авторизация\удаление сессии
+1. Регистраиця\авторизация\удаление сессии
 2. Создание/редактирование программы тренировок на стороне администратора(admin.php/admin_panel.php)
+3. Вывод программ тренировок для клиента
+
 
 
 В РАБОТЕ:
-1. личный кабинет{статистика пользователя, рекомендации, цели }
-2. тренировки {запись на тренировку, запрос на составление тренировочного плана, история последних тренировок}
-3. Группа {создание тренировочной группы, запись на групповую тренировку}
+1. Старт тренировки
+2. Запись результатов тренировки в таблицу истории
+3. Личный кабинет пользователя 
+4. 
+5. 
 
-
-Для резюме - практивка с базовыми SQL запросами (JOIN, ORDER, GROUP...)
-sql запросы: 
-
-Запрос на вывод списка упражнений для конкретного пользователя в рамках присвоеной ему программы
-
-        SELECT e.title AS exercise_title
-        FROM exercises e
-        JOIN program_exercise pe ON e.id = pe.exercise_id
-        JOIN user_program up ON pe.id_program = up.id_program
-        JOIN users u ON up.id_user = u.id
-        WHERE u.id = 3 AND up.id_program = 2;
-
-
-Вывод последних 3х записей показателей пользователей 
-
-        $query = "SELECT MAX(s.date) AS last_date, s.height, s.body_weight, s.fat_mass, s.muscle_mass 
-        FROM user_stats s JOIN users u ON s.id_user = u.id 
-        WHERE u.id = '$idUser' 
-        GROUP BY s.height, s.body_weight, s.fat_mass, s.muscle_mass 
-        ORDER BY last_date DESC LIMIT 3";
-
-
-Запись многомерного массива данных в БД через цикл foreach
-
-        $query = "INSERT INTO program_exercise (id_workout, exercise_id, weight, set_count, repeat_count) VALUES (?, ?, ?, ?, ?)";
-        $stmt = $pdo->prepare($query);
-
-        foreach ($data as $exercise) {
-            $id_workout = 3; // Предположим, что id_workout у вас также есть в массиве данных
-            $exercise_id = $exercise[0];
-            $weight = $exercise[1];
-            $set_count = $exercise[2];
-            $repeat_count = $exercise[3];
-            $stmt->bindValue(1, $id_workout, PDO::PARAM_INT);
-            $stmt->bindValue(2, $exercise_id, PDO::PARAM_INT);
-            $stmt->bindValue(3, $weight, PDO::PARAM_INT);
-            $stmt->bindValue(4, $set_count, PDO::PARAM_INT);
-            $stmt->bindValue(5, $repeat_count, PDO::PARAM_INT);
-            $stmt->execute();
-        }
