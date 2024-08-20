@@ -20,7 +20,7 @@ $query = "
 $result = queryMysql($query);
 while ($row = $result->fetch()) {
     echo '
-    <div class="col-12 col-md-6">
+    <div class="col-12 col-md-6" id="'.$row['id_program'].'" onclick="startWorkout(this)">
         <div class="content-block">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h1 class="h6 font-weight-bold">'.$row['workout_title'].'</h1>
@@ -51,3 +51,10 @@ while ($row = $result->fetch()) {
 ?>
 </div>
 </div>
+
+<script>
+function startWorkout(element) {
+    var divID = element.id;
+    window.location.href = 'training.php?id=' + divID;
+}
+</script>
