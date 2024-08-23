@@ -40,6 +40,7 @@
       </div>
     </div>
   </div>
+
   <div class="accordion-item">
     <h2 class="accordion-header">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
@@ -118,9 +119,49 @@
     </div>
   </div>
 
+  <!-- присовение программы -->
+<div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+        Назначить тренировку
+      </button>
+    </h2>
+    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+      <div class="accordion-body text-center">
+        
+        <div class="container">
+          <div class="row">
+                <label for="select_user" class="form-label"><strong>Клиент</strong></label>
+                <select class="form-select  text-center" id="select_user">
+                    <?php
+                    $result = queryMysql("SELECT id, forename, surname FROM users");
+                    while ($row = $result->fetch()) {
+                        echo '<option value="' . $row['id'] . '">' . $row['surname'] .' '. $row['forename'] .  '</option>';
+                    }
+                    ?>
+                </select>
+              
+                <label for="elect_prog" class="form-label"><strong>Программа</strong></label>
+                <select class="form-select text-center" id="select_prog">
+                    <?php
+                    $result = queryMysql("SELECT id, title FROM workouts");
+                    while ($row = $result->fetch()) {
+                        echo '<option value="' . $row['id'] . '">' . $row['title'] .'</option>';
+                    }
+                    ?>
+                </select>
+          </div>
+        </div><br />
+          <div class="d-grid gap-2 d-md-block">
+            <button class="btn btn-success" type="button" onclick="assignProgram()">НАЗНАЧИТЬ</button>
+          </div>
+      </div>
+    </div>
+</div>
+
 </div> <!-- Конец #accordionFlushExample -->
 
-<!-- Подключите jQuery и Bootstrap JS -->
+
 
 
 
@@ -134,6 +175,8 @@
             });
         });
         var dataExercise = [];
+        var newExercise = [];
+        var userProgram = [];
         // сохраняю упражнения в массив для препросмотра
         function addProgram(){
           var program = $('#choise_program').val();
@@ -180,8 +223,8 @@
                type: 'post',
                data: { data: JSON.stringify(dataExercise) },
                dataType: 'json',
-               success: function() {
-            console.log(); // Логирование сообщения
+               success: function(response) {
+            console.log(response["status"]); // Логирование сообщения
             
         },
                error: function() {
@@ -191,7 +234,7 @@
           // console.log(dataExercise);
         }
 
-      var newExercise = [];
+      
       function addExercise(){
       var exercise_title = $('#exercise_title').val();
       var exercise_group = $('#choise_group').val();
@@ -214,4 +257,32 @@
                }
            });
       }
+
+      function assignProgram(){
+        var user = $('#select_user').val();
+        var prog = $('#select_prog').val();
+        var toServer = {
+           user: user,
+           program: prog
+           
+       }
+
+
+
+          $.ajax({
+               url: 'assignProgram.php',
+               type: 'post',
+               data: { data: JSON.stringify(toServer) },
+               dataType: 'json',
+               success: function(response) {
+            console.log(response["status"]); // Логирование сообщения
+            
+        },
+               error: function() {
+                   console.log('error');
+               }
+           });
+          // console.log(dataExercise);
+        }
+
     </script>

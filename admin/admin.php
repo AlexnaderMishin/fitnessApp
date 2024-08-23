@@ -23,10 +23,7 @@ foreach ($data as $exercise) {
     $stmt->bindValue(5, $repeat_count, PDO::PARAM_INT);
     $stmt->execute();
 }
-
-// Закрываем подготовленный запрос и соединение
-$stmt->close();
- 
+$stmt = null; 
 
 // Возвращаем ответ
 $response = array("status" => "success");
@@ -34,7 +31,6 @@ echo json_encode($response);
 exit();
 
 ?>
-
 
 
 
